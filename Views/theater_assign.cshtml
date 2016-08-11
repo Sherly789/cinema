@@ -1,0 +1,16 @@
+
+
+<h4>Add a movie to @Model["theater"].GetLocation():</h4>
+<form action='/theater/add_movie' method='post'>
+  <input id='theater-id' name='theater-id' type='hidden' value='@Model["theater"].GetId()'>
+  <label for='movie-id'>Select a movie</label>
+  <select id='movie-id' name='movie-id' type='text'>
+    @foreach (var movie in @Model["allMovies"])
+    {
+      <option value='@movie.GetId()'>@movie.GetTitle()</option>
+    }
+  </select>
+  <button type='submit'>Add</button>
+</form>
+
+<h4><a href="/theaters/new">Back</a></h4>

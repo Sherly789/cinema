@@ -1,6 +1,19 @@
 <h1>Cinema Scene</h1>
-<h2>Add new theater</h2>
 <hr />
+<h2>Theater Specs:</h2>
+@if (Model.Count != 0)
+{
+  <ul>
+    @foreach (var theater in Model)
+    {
+      <li><a href='/theater-add/@theater.GetId()'>Add movie to @theater.GetLocation()</a>| <a href="/theater/edit/@theater.GetId()">Edit</a>| <a href="theater/delete/@theater.GetId()">Delete</a></li>
+    }
+  </ul>
+}
+
+<hr>
+
+<h2>Add new theater</h2>
 <form action="/theaters/new" method="post">
   <label for="theater-location">Theater name:</label>
   <input id="theater-location" name="theater-location" type="text">
@@ -8,4 +21,9 @@
   <input id="theater-date" name="theater-date" type="datetime-local">
     <button type="submit">Add</button>
 </form>
-<h4><a href="/">Return home</a></h4>
+
+
+
+<h4><a href="/movies/new">Add new movie</a></h4>
+<h4><a href="/admin">Admin Home</a></h4>
+<h4><a href="/">Home</a></h4>
