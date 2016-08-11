@@ -6,13 +6,9 @@
   <ul>
     @foreach (var theater in Model)
     {
-      <li><a href='/theaters/@theater.GetId()'>@theater.GetLocation()</a> | <a href="/theater/edit/@theater.GetId()">Edit</a>| <a href="theater/delete/@theater.GetId()">Delete</a>
-      </li>
+      <li><a href='/theaters/@theater.GetId()'>@theater.GetLocation()</a></li>
     }
   </ul>
-  <form action="/theaters/delete" method="post">
-    <button type="submit">Clear all theaters</button>
-  </form>
 }
-<h4><a href="/theaters/new">Add new theater</a></h4>
-<h4><a href="/">Return home</a></h4>
+
+<h4><a href="/">Home</a></h4>

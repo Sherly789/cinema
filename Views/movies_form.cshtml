@@ -6,5 +6,18 @@
   <input id="movie-rating" name="movie-rating" type="text">
   <button type="submit">Add new movie</button>
 </form>
-<p><a href="/">Back home</a></p>
-<p><a href="/movies">View all movies</a></p>
+
+<h2>Movie Specs:</h2>
+@if (Model.Count != 0)
+{
+  <ul>
+    @foreach (var movie in Model)
+    {
+      <li><a href='/movie_to_theater/@movie.GetId()'>@movie.GetTitle()</a>| <a href="/movie/edit/@movie.GetId()">Edit</a>| <a href="movie/delete/@movie.GetId()">Delete</a></li>
+    }
+  </ul>
+}
+
+<p><a href="/theaters/new">Edit Theaters</a></p>
+<p><a href="/admin">Return to Admin Index</a></p>
+<p><a href="/">Home</a></p>

@@ -6,7 +6,7 @@
   <ul>
     @foreach (var movie in Model)
     {
-      <li><a href='/movies/@movie.GetId()'>@movie.GetTitle()</a> | <a href="/movie/edit/@movie.GetId()">Edit</a>| <a href="movie/delete/@movie.GetId()">Delete</li>
+      <li><a href='/movie_to_theater/@movie.GetId()'>@movie.GetTitle()</a> | <a href="/movie/edit/@movie.GetId()">Edit</a>| <a href="movie/delete/@movie.GetId()">Delete</li>
     }
   </ul>
   <form action="/movies/delete" method="post">
