@@ -1,11 +1,20 @@
-<h2>Your order will cost $10</h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/Contents/js/scripts.js"></script>
+<h2>Your order will cost $<span id="total-price">10</span></h2>
 
-<h3>Please enter your credit card information below:</h3>
 
-<p>
-  form goes here
-</p>
+<form class="" action="/customer/placeOrder" method="post">
+  <input type="hidden" name="user-order-id" value="@Model["user"].GetId()">
+  <input type="hidden" name="movie-order-id" value="@Model["selectedMovie"].GetId()">
+  <input type="hidden" name="theater-order-id" value="@Model["selectTheater"].GetId()">
+  <h3>Enter Quantity:</h3>
+  <input id="order-qt-input" type="text" name="order-qt" value="1">
+  <h1>Your Name : @Model["user"].GetName()</h1>
+  <h1>Movie Title :@Model["selectedMovie"].GetTitle()</h1>
+  <h1> Theater :@Model["selectTheater"].GetLocation()</h1>
 
-<form action="/customer/purchase" method="get">
-  <button type="submit" name="button">Buy Ticket</button>
+  <button type="submit" name="button">Place Order Now</button>
 </form>
