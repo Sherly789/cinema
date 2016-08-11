@@ -1,7 +1,8 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
 <h1>Please enter your name</h1>
 <form action="/customers/new" method="post">
   <label for="customer-name">Customer name:</label>
-  <input id="customer-name" name="customer-name" type="text">
+  <input required id="customer-name" name="customer-name" type="text">
   <button type="submit">Add new customer</button>
 </form>
-<p><a href="/">Back home</a></p>
+<a href="/" class="btn btn-default">Back home</a>
