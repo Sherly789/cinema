@@ -6,7 +6,7 @@
   <ul>
     @foreach (var theater in Model)
     {
-      <li><a href='/theater-add/@theater.GetId()'>Add movie to @theater.GetLocation()</a>| <a href="/theater/edit/@theater.GetId()">Edit</a>| <a href="theater/delete/@theater.GetId()">Delete</a></li>
+      <li><a href='/theater-add/@theater.GetId()'>Add movie to @theater.GetLocation()</a>| <a href="/theater/edit/@theater.GetId()">Edit</a>| <a href="/theater/delete/@theater.GetId()">Delete</a></li>
     }
   </ul>
 }

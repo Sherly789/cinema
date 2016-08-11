@@ -123,11 +123,12 @@ namespace Cinema
           return View["admin.cshtml"];
         };
 
-        Get["theater/delete/{id}"] = parameters => {
+        Get["/theater/delete/{id}"] = parameters => {
           Theater SelectedTheater = Theater.Find(parameters.id);
           return View["theater_delete.cshtml", SelectedTheater];
         };
-        Delete["theater/delete/{id}"] = parameters => {
+
+        Delete["/theater/delete/{id}"] = parameters => {
           Theater SelectedTheater = Theater.Find(parameters.id);
           SelectedTheater.Delete();
           return View["admin.cshtml"];
@@ -149,11 +150,12 @@ namespace Cinema
           return View["admin.cshtml"];
         };
 
-        Get["movie/delete/{id}"] = parameters => {
+        Get["/movie/delete/{id}"] = parameters => {
           Movie SelectedMovie = Movie.Find(parameters.id);
           return View["movie_delete.cshtml", SelectedMovie];
         };
-        Delete["movie/delete/{id}"] = parameters => {
+
+        Delete["/movie/delete/{id}"] = parameters => {
           Movie SelectedMovie = Movie.Find(parameters.id);
           SelectedMovie.Delete();
           return View["admin.cshtml"];
