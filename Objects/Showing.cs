@@ -18,7 +18,7 @@ namespace Cinema
       _id = CollectId(Movie.Find(MovieId), Theater.Find(TheaterId));
     }
 
-    public int CollectId(Movie movie, Theater theater)
+    public static int CollectId(Movie movie, Theater theater)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
