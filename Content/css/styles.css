@@ -1,0 +1,13 @@
+p {
+  color: red;
+}
+
+body {
+  background:url("/Content/img/background.jpg");
+  background-size: cover;
+}
+
+.transparent-img {
+  background-color:rgba(255, 255, 255, 0.6);
+  min-height:100vh;
+}
