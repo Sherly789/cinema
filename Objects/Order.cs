@@ -36,7 +36,7 @@ namespace Cinema
       }
     }
 
-    
+
     public int GetId()
     {
       return _id;
@@ -138,6 +138,45 @@ namespace Cinema
         conn.Close();
       }
     }
+    //
+    // public void  SaveToJoinTable(Movie movie, Theater theater)
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("INSERT INTO orders (showing_id, user_id, quantity) OUTPUT INSERTED.id VALUES (@OrderShowingId, @OrderUserId, @OrderQuantity);", conn);
+    //
+    //   SqlParameter showingIdParameter = new SqlParameter();
+    //   showingIdParameter.ParameterName = "@OrderShowingId";
+    //   showingIdParameter.Value = Showing.CollectId(movie,theater);
+    //
+    //   SqlParameter userIdParameter = new SqlParameter();
+    //   userIdParameter.ParameterName = "@OrderUserId";
+    //   userIdParameter.Value = this.GetUserId();
+    //
+    //   SqlParameter quantityParameter = new SqlParameter();
+    //   quantityParameter.ParameterName = "@OrderQuantity";
+    //   quantityParameter.Value = this.GetQuantity();
+    //
+    //   cmd.Parameters.Add(showingIdParameter);
+    //   cmd.Parameters.Add(userIdParameter);
+    //   cmd.Parameters.Add(quantityParameter);
+    //
+    //   SqlDataReader rdr = cmd.ExecuteReader();
+    //
+    //   while (rdr.Read())
+    //   {
+    //     this._id = rdr.GetInt32(0);
+    //   }
+    //   if (rdr != null)
+    //   {
+    //     rdr.Close();
+    //   }
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    // }
 
     public static Order Find(int id)
     {
