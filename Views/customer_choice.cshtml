@@ -1,0 +1,16 @@
+<h1>Cinema Scene</h1>
+<h2>Movie: @Model["movie"].GetTitle()</h2>
+<hr />
+@if (@Model["movieTheaters"].Count != 0)
+{
+  <h2>This movie is playing at these theaters</h2>
+  <h4>Please select which theater you want to buy the ticket from:</h4>
+  <ul>
+    @foreach (var theater in @Model["movieTheaters"])
+    {
+      <li><strong>Venue:</strong> <a href="/customer/order">@theater.GetLocation()</a>, <strong>ShowTime:</strong> @theater.GetDateTime()</li>
+    }
+  </ul>
+}
+
+<p><a href="/">Return to Main Page</a></p>

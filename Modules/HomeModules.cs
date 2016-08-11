@@ -129,6 +129,40 @@ namespace Cinema
           SelectedMovie.Delete();
           return View["success.cshtml"];
         };
+
+        Get["/customers/new"] = _ => {
+          return View["customer_form.cshtml"];
+        };
+
+        Post["/customers/new"] = _ => {
+          User newUser = new User(Request.Form["customer-name"]);
+          newUser.Save();
+          return View["customer_information.cshtml", newUser];
+        };
+
+        Get["/customer/select"] = _ => {
+          List<Movie> AllMovies = Movie.GetAll();
+          return View["customer_select.cshtml", AllMovies];
+        };
+
+        Get["customer/select/{id}"] = parameters => {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Movie SelectedMovie = Movie.Find(parameters.id);
+            List<Theater> MovieTheaters = SelectedMovie.GetTheaters();
+            List<Theater> AllTheaters = Theater.GetAll();
+            model.Add("movie", SelectedMovie);
+            model.Add("movieTheaters", MovieTheaters);
+            model.Add("allTheaters", AllTheaters);
+            return View["customer_choice.cshtml", model];
+          };
+
+        Get["/customer/order"] = _ => {
+          return View["customer_order.cshtml"];
+        };
+
+        Get["/customer/purchase"] = _ => {
+          return View["customer_purchase.cshtml"];
+        };
     }
   }
 }
