@@ -9,7 +9,12 @@ namespace Cinema
     public HomeModule()
     {
       Get["/"] = _ => {
-        return View["index.cshtml"];
+        List<Movie> AllMovies = Movie.GetAll();
+        return View["index.cshtml", AllMovies];
+      };
+
+      Get["/admin"] = _ => {
+        return View["admin.cshtml"];
       };
 
       Get["/movies"] = _ => {
@@ -23,23 +28,25 @@ namespace Cinema
       };
 
       Get["/theaters/new"] = _ => {
-        return View["theater_form.cshtml"];
+        List<Theater> AllTheaters = Theater.GetAll();
+        return View["theater_form.cshtml", AllTheaters];
       };
 
       Post["/theaters/new"] = _ => {
         Theater newTheater = new Theater(Request.Form["theater-location"], Request.Form["theater-date"]);
         newTheater.Save();
-        return View["success.cshtml"];
+        return View["admin.cshtml"];
       };
 
       Get["/movies/new"] = _ => {
-        return View["movie_form.cshtml"];
+        List<Movie> allMovies = Movie.GetAll();
+        return View["movies_form.cshtml", allMovies];
       };
 
-      Post["/movie/new"] = _ => {
+      Post["/movies/new"] = _ => {
         Movie newMovie = new Movie(Request.Form["movie-title"], Request.Form["movie-rating"]);
         newMovie.Save();
-        return View["success.cshtml"];
+        return View["admin.cshtml"];
       };
 
       Get["movies/{id}"] = parameters => {
@@ -53,6 +60,17 @@ namespace Cinema
           return View["movie.cshtml", model];
         };
 
+        Get["movie_to_theater/{id}"] = parameters => {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Movie SelectedMovie = Movie.Find(parameters.id);
+            List<Theater> MovieTheaters = SelectedMovie.GetTheaters();
+            List<Theater> AllTheaters = Theater.GetAll();
+            model.Add("movie", SelectedMovie);
+            model.Add("movieTheaters", MovieTheaters);
+            model.Add("allTheaters", AllTheaters);
+            return View["movie_to_theater.cshtml", model];
+          };
+
         Get["theaters/{id}"] = parameters => {
           Dictionary<string, object> model = new Dictionary<string, object>();
           Theater SelectedTheater = Theater.Find(parameters.id);
@@ -64,18 +82,29 @@ namespace Cinema
           return View["theater.cshtml", model];
         };
 
+        Get["/theater-add/{id}"] = parameters => {
+          Dictionary<string, object> model = new Dictionary<string, object>();
+          Theater SelectedTheater = Theater.Find(parameters.id);
+          List<Movie> TheaterMovies = SelectedTheater.GetMovies();
+          List<Movie> AllMovies = Movie.GetAll();
+          model.Add("theater", SelectedTheater);
+          model.Add("theaterMovies", TheaterMovies);
+          model.Add("allMovies", AllMovies);
+          return View["theater_assign.cshtml", model];
+        };
+
         Post["movie/add_theater"] = _ => {
           Theater theater = Theater.Find(Request.Form["theater-id"]);
           Movie movie = Movie.Find(Request.Form["movie-id"]);
           movie.AddTheater(theater);
-          return View["success.cshtml"];
+          return View["admin.cshtml"];
         };
 
         Post["theater/add_movie"] = _ => {
           Theater theater = Theater.Find(Request.Form["theater-id"]);
           Movie movie = Movie.Find(Request.Form["movie-id"]);
           theater.AddMovies(movie);
-          return View["success.cshtml"];
+          return View["admin.cshtml"];
         };
 
         Post["/movies/delete"] = _ => {
@@ -90,8 +119,8 @@ namespace Cinema
 
         Patch["theater/edit/{id}"] = parameters => {
           Theater SelectedTheater = Theater.Find(parameters.id);
-          SelectedTheater.Update(Request.Form["theater-name"], Request.Form["theater-date"]);
-          return View["success.cshtml"];
+          SelectedTheater.Update(Request.Form["theater-location"], Request.Form["theater-date"]);
+          return View["admin.cshtml"];
         };
 
         Get["theater/delete/{id}"] = parameters => {
@@ -101,7 +130,7 @@ namespace Cinema
         Delete["theater/delete/{id}"] = parameters => {
           Theater SelectedTheater = Theater.Find(parameters.id);
           SelectedTheater.Delete();
-          return View["success.cshtml"];
+          return View["admin.cshtml"];
         };
 
         Post["/theaters/delete"] = _ => {
@@ -117,7 +146,7 @@ namespace Cinema
         Patch["movie/edit/{id}"] = parameters => {
           Movie SelectedMovie = Movie.Find(parameters.id);
           SelectedMovie.Update(Request.Form["movie-title"], Request.Form["movie-rating"]);
-          return View["success.cshtml"];
+          return View["admin.cshtml"];
         };
 
         Get["movie/delete/{id}"] = parameters => {
@@ -125,9 +154,43 @@ namespace Cinema
           return View["movie_delete.cshtml", SelectedMovie];
         };
         Delete["movie/delete/{id}"] = parameters => {
-          Movie SelectedMovie = Theater.Find(parameters.id);
+          Movie SelectedMovie = Movie.Find(parameters.id);
           SelectedMovie.Delete();
-          return View["success.cshtml"];
+          return View["admin.cshtml"];
+        };
+
+        Get["/customers/new"] = _ => {
+          return View["customer_form.cshtml"];
+        };
+
+        Post["/customers/new"] = _ => {
+          User newUser = new User(Request.Form["customer-name"]);
+          newUser.Save();
+          return View["customer_information.cshtml", newUser];
+        };
+
+        Get["/customer/select"] = _ => {
+          List<Movie> AllMovies = Movie.GetAll();
+          return View["customer_select.cshtml", AllMovies];
+        };
+
+        Get["customer/select/{id}"] = parameters => {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Movie SelectedMovie = Movie.Find(parameters.id);
+            List<Theater> MovieTheaters = SelectedMovie.GetTheaters();
+            List<Theater> AllTheaters = Theater.GetAll();
+            model.Add("movie", SelectedMovie);
+            model.Add("movieTheaters", MovieTheaters);
+            model.Add("allTheaters", AllTheaters);
+            return View["customer_choice.cshtml", model];
+          };
+
+        Get["/customer/order"] = _ => {
+          return View["customer_order.cshtml"];
+        };
+
+        Get["/customer/purchase"] = _ => {
+          return View["customer_purchase.cshtml"];
         };
     }
   }
