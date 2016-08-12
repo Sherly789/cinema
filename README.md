@@ -32,7 +32,7 @@ _None known._
 
 ## Support and contact details
 
-_Contact the authors at [rthornbrug@gmail.com]._
+_Contact the authors at [rthornbrug@gmail.com]. [farvid.sh@gmail.com]_
 
 ## Technologies Used
 

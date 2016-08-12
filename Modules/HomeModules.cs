@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Nancy;
 using Nancy.ViewEngines.Razor;
-
+using System;
 namespace Cinema
 {
   public class HomeModule : NancyModule
@@ -171,24 +171,53 @@ namespace Cinema
           return View["customer_information.cshtml", newUser];
         };
 
-        Get["/customer/select"] = _ => {
+        Get["/customer/select/user/{id}"] = parameters => {
+          User SelectedUser = User.Find(parameters.id);
           List<Movie> AllMovies = Movie.GetAll();
-          return View["customer_select.cshtml", AllMovies];
+          Dictionary<string, object> model = new Dictionary<string, object>();
+          model.Add("allmovie", AllMovies);
+          model.Add("users", SelectedUser);
+
+          return View["customer_select.cshtml", model];
         };
 
-        Get["customer/select/{id}"] = parameters => {
+        Get["/customer/select/user/{UserId}/{id}"] = parameters => {
             Dictionary<string, object> model = new Dictionary<string, object>();
+            User SelectedUser = User.Find(parameters.UserId);
             Movie SelectedMovie = Movie.Find(parameters.id);
             List<Theater> MovieTheaters = SelectedMovie.GetTheaters();
             List<Theater> AllTheaters = Theater.GetAll();
             model.Add("movie", SelectedMovie);
+            model.Add("user", SelectedUser);
             model.Add("movieTheaters", MovieTheaters);
             model.Add("allTheaters", AllTheaters);
             return View["customer_choice.cshtml", model];
           };
 
-        Get["/customer/order"] = _ => {
-          return View["customer_order.cshtml"];
+        Get["/customer/select/user/{UserId}/{id}/{TheaterId}"] = parameters => {
+          Dictionary<string, object> model = new Dictionary<string, object>();
+          User SelectedUser = User.Find(parameters.UserId);
+          Movie SelectedMovie = Movie.Find(parameters.id);
+          Theater SelectedTheater = Theater.Find(parameters.TheaterId);
+          model.Add("user", SelectedUser);
+          model.Add("selectedMovie", SelectedMovie);
+          model.Add("selectTheater", SelectedTheater);
+          return View["customer_order.cshtml",model];
+        };
+
+        Post["/customer/placeOrder"] = _ =>{
+          Movie SelectedMovie = Movie.Find(Request.Form["movie-order-id"]);
+          Theater SelectedTheater = Theater.Find(Request.Form["theater-order-id"]);
+          Console.WriteLine("MovieId"+SelectedMovie.GetId());
+          Console.WriteLine("SelectedTheater"+SelectedTheater.GetId());
+
+          int oneShowingId=Showing.CollectId(SelectedMovie,SelectedTheater);
+          Console.WriteLine("oneShowingId"+oneShowingId);
+
+          Order myOrder= new Order(oneShowingId,Request.Form["user-order-id"],Request.Form["order-qt"]);
+          myOrder.Save();
+          return View["customer_purchase.cshtml"];
+
         };
 
         Get["/customer/purchase"] = _ => {
